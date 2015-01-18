@@ -64,7 +64,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         myMap.setRegion(region, animated: true)
         
+        // Stop updating location
+        manager.stopUpdatingLocation()
+        
     }
 
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        println(error)
+    }
 }
 
