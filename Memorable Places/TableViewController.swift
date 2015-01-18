@@ -57,10 +57,12 @@ class TableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         activePlace = indexPath.row
         
+        self.performSegueWithIdentifier("findPlaceinMap", sender: indexPath)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
         // Hide navigation bar from navigation controller in order to show next view's own bar after segue is performed
         self.navigationController?.navigationBarHidden = true
-        
-        self.performSegueWithIdentifier("findPlaceinMap", sender: indexPath)
     }
     
 
@@ -99,14 +101,15 @@ class TableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "addPlace" {
+            activePlace = -1
+        }
     }
-    */
+
 
 }

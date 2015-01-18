@@ -29,6 +29,19 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        if activePlace == -1 {
+            
+            manager.requestWhenInUseAuthorization()
+            manager.startUpdatingLocation()
+            
+        } else {
+        
+        
         let lat = NSString(string: places[activePlace]["lat"]!).doubleValue
         let lon = NSString(string: places[activePlace]["lon"]!).doubleValue
         
@@ -42,9 +55,17 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var region:MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         
         myMap.setRegion(region, animated: true)
+            
+        var annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = places[activePlace]["name"]
+        myMap.addAnnotation(annotation)
         
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        var uilpr = UILongPressGestureRecognizer(target: self, action: "longPressed:")
+        uilpr.minimumPressDuration = 2.0
+        myMap.addGestureRecognizer(uilpr)
+        
+        }
         
     }
 
@@ -72,5 +93,24 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println(error)
     }
+
+    override func viewWillDisappear(animated: Bool) {
+        // Hide navigation bar from navigation controller in order to show next view's own bar after segue is performed
+        self.navigationController?.navigationBarHidden = false
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+
+    }
+
+    func longPressed(guestureRecog:UIGestureRecognizer) {
+        
+        
+    }
+
 }
+    
+
+
 

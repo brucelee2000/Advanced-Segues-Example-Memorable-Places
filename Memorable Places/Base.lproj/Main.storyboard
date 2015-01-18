@@ -20,7 +20,11 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="My Map" id="RkC-Xp-aHL">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="naI-kJ-TlE"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="naI-kJ-TlE">
+                                            <connections>
+                                                <segue destination="AGf-GI-ktb" kind="show" identifier="backToTableView" id="a95-rr-TXj"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Fine Me" id="Xy3-fH-RVn">
                                             <connections>
                                                 <action selector="findMe:" destination="vXZ-lx-hvc" id="lfP-nU-1JQ"/>
@@ -70,7 +74,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Saved Places" id="p6M-vE-oWq">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLm-js-HLA"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SLm-js-HLA">
+                            <connections>
+                                <segue destination="vXZ-lx-hvc" kind="show" identifier="addPlace" id="UZZ-qd-GpT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWl-SP-9ck" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -96,4 +104,8 @@
             <point key="canvasLocation" x="565" y="1133"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="UZZ-qd-GpT"/>
+        <segue reference="a95-rr-TXj"/>
+    </inferredMetricsTieBreakers>
 </document>
