@@ -10,7 +10,6 @@ import UIKit
 
 class TableViewController: UITableViewController {
 
-    var places:[Dictionary<String, String>] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +55,8 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        activePlace = indexPath.row
+        
         // Hide navigation bar from navigation controller in order to show next view's own bar after segue is performed
         self.navigationController?.navigationBarHidden = true
         
