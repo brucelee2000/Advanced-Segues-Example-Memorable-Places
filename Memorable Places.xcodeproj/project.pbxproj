@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A737174D1A6CA4830065EB4F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737174C1A6CA4830065EB4F /* Place.swift */; };
 		A76D24521A6B8377009E477D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D24511A6B8377009E477D /* AppDelegate.swift */; };
 		A76D24541A6B8377009E477D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D24531A6B8377009E477D /* ViewController.swift */; };
 		A76D24571A6B8377009E477D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A76D24551A6B8377009E477D /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A737174C1A6CA4830065EB4F /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		A76D244C1A6B8377009E477D /* Memorable Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Memorable Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A76D24501A6B8377009E477D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A76D24511A6B8377009E477D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				A76D24511A6B8377009E477D /* AppDelegate.swift */,
 				A76D24531A6B8377009E477D /* ViewController.swift */,
 				A76D24751A6B86C4009E477D /* TableViewController.swift */,
+				A737174C1A6CA4830065EB4F /* Place.swift */,
 				A76D24551A6B8377009E477D /* Main.storyboard */,
 				A76D24581A6B8377009E477D /* Images.xcassets */,
 				A76D245A1A6B8377009E477D /* LaunchScreen.xib */,
@@ -226,6 +229,7 @@
 				A76D24541A6B8377009E477D /* ViewController.swift in Sources */,
 				A76D24761A6B86C4009E477D /* TableViewController.swift in Sources */,
 				A76D24521A6B8377009E477D /* AppDelegate.swift in Sources */,
+				A737174D1A6CA4830065EB4F /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +421,7 @@
 				A76D246D1A6B8377009E477D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A76D246E1A6B8377009E477D /* Build configuration list for PBXNativeTarget "Memorable PlacesTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +430,7 @@
 				A76D24701A6B8377009E477D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

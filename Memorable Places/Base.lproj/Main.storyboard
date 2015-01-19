@@ -16,7 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LXh-mO-Cd9">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OYl-7r-hCI">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="JJ1-XG-h9X"/>
+                                </connections>
+                            </mapView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LXh-mO-Cd9">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="My Map" id="RkC-Xp-aHL">
@@ -25,7 +31,7 @@
                                                 <segue destination="AGf-GI-ktb" kind="show" identifier="backToTableView" id="a95-rr-TXj"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Fine Me" id="Xy3-fH-RVn">
+                                        <barButtonItem key="rightBarButtonItem" title="Find Me" id="Xy3-fH-RVn">
                                             <connections>
                                                 <action selector="findMe:" destination="vXZ-lx-hvc" id="lfP-nU-1JQ"/>
                                             </connections>
@@ -33,14 +39,17 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OYl-7r-hCI">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <connections>
-                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="JJ1-XG-h9X"/>
-                                </connections>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="32W-Vu-KWp"/>
+                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="7LA-jl-aGi"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="top" secondItem="LXh-mO-Cd9" secondAttribute="bottom" id="MFr-S9-y0p"/>
+                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="leading" secondItem="OYl-7r-hCI" secondAttribute="leading" id="WdS-Kr-gd2"/>
+                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="YFg-s6-M9g"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="trailing" secondItem="LXh-mO-Cd9" secondAttribute="trailing" id="YlT-bD-3gp"/>
+                            <constraint firstAttribute="trailing" secondItem="OYl-7r-hCI" secondAttribute="trailing" id="ZMV-mW-ysh"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="myMap" destination="OYl-7r-hCI" id="Nfg-Jk-4yF"/>

@@ -9,7 +9,10 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-
+    
+    var places:[Place] = []
+    
+    //var activePlaceNumber:Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +22,6 @@ class TableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        places.append(["name":"San Jose", "lat":"37.337699", "lon":"-121.96032"])
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,22 +49,31 @@ class TableViewController: UITableViewController {
 
         // Configure the cell...
         let selectedPlace = places[indexPath.row]
-        cell.textLabel?.text = selectedPlace["name"]
+        cell.textLabel?.text = selectedPlace.name
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        activePlace = indexPath.row
+    // This function is called before segue runs
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         
-        self.performSegueWithIdentifier("findPlaceinMap", sender: indexPath)
+        return indexPath
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("findPlaceinMap", sender: self)
     }
     
     override func viewWillDisappear(animated: Bool) {
         // Hide navigation bar from navigation controller in order to show next view's own bar after segue is performed
-        self.navigationController?.navigationBarHidden = true
+        //self.navigationController?.navigationBarHidden = true
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableView.reloadData()
+        println(places)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -104,11 +113,28 @@ class TableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        // Pass the selected object to the new view controller
         
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // When using navigation bar, navigation controller automatically maintains the data transfer between two VCs
+        // When using user own navigation bar, navigation controller cannot maintain the data transfer, and user has to take care of that
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if segue.identifier == "addPlace" {
-            activePlace = -1
+            let mapVC = segue.destinationViewController as ViewController
+            mapVC.mySavedPlaceVC = self
+            mapVC.addPlace = true
+        } else if segue.identifier == "findPlaceinMap" {
+            let mapVC = segue.destinationViewController as ViewController
+            mapVC.mySavedPlaceVC = self
+            
+            let indexPath = self.tableView.indexPathForSelectedRow()
+            mapVC.currentPlace = places[indexPath!.row]
+            mapVC.addPlace = false
+            //mapVC.currentPlaceNumber = activePlaceNumber
+            //mapVC.currentPlace = places[activePlaceNumber!]
         }
+        
+        
     }
 
 
