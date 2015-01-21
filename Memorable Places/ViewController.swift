@@ -59,9 +59,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             var annotation = MKPointAnnotation()
             annotation.coordinate = location
             annotation.title = currentPlace.name
+            annotation.subtitle = "\(currentPlace.latitude)" + ", " + "\(currentPlace.longitude)"
             
             myMap.addAnnotation(annotation)
-            myMap.selectAnnotation(annotation, animated: false)
+            myMap.selectAnnotation(annotation, animated: true)
         }
         
         // Add gesture recognition to the map
@@ -84,7 +85,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
         var region:MKCoordinateRegion = MKCoordinateRegionMake(currentLocation.coordinate, span)
         
+        myMap.setCenterCoordinate(currentLocation.coordinate, animated: true)
         myMap.setRegion(region, animated: true)
+        
+        var annotation = MKPointAnnotation()
+        annotation.coordinate = currentLocation.coordinate
+        annotation.title = "Current Location"
+        annotation.subtitle = "\(currentLocation.coordinate.latitude)" + ", " + "\(currentLocation.coordinate.longitude)"
+        
+        myMap.addAnnotation(annotation)
+        myMap.selectAnnotation(annotation, animated: true)
         
         // Stop updating location
         manager.stopUpdatingLocation()
@@ -106,8 +116,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
 
     }
 
+    // Function to implement guesture recognition on the map
     func longPressed(guestureRecog:UIGestureRecognizer) {
         if guestureRecog.state == UIGestureRecognizerState.Began {
+            var deselectedAnnotations = myMap.selectedAnnotations
+            myMap.removeAnnotations(deselectedAnnotations)
+            
             var touchPoint = guestureRecog.locationInView(self.myMap)
             var usrCoordinate:CLLocationCoordinate2D = myMap.convertPoint(touchPoint, toCoordinateFromView: self.myMap)
             var usrLocation = CLLocation(latitude: usrCoordinate.latitude, longitude: usrCoordinate.longitude)
@@ -130,28 +144,97 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     var country = p.country ?? ""
                     
                     var address = "\(subThoroughfare) \(thoroughfare)\n\(subAdministrativeArea), \(administrativeArea) \(postalCode)\n\(country)"
-                    println(address)
                     
                     var usrAnnotation = MKPointAnnotation()
                     usrAnnotation.coordinate = usrCoordinate
                     
                     usrAnnotation.title = address
+                    usrAnnotation.subtitle = "\(usrCoordinate.latitude)" + ", " + "\(usrCoordinate.longitude)"
                     
                     self.myMap.addAnnotation(usrAnnotation)
                     self.myMap.selectAnnotation(usrAnnotation, animated: true)
                     
-                    var selectedPlace = Place()
-                    selectedPlace.name = usrAnnotation.title
-                    selectedPlace.latitude = "\(usrCoordinate.latitude)"
-                    selectedPlace.longitude = "\(usrCoordinate.longitude)"
+                    self.currentPlace = Place()
+                    self.currentPlace.name = usrAnnotation.title
+                    self.currentPlace.latitude = "\(usrCoordinate.latitude)"
+                    self.currentPlace.longitude = "\(usrCoordinate.longitude)"
                     
-                    self.mySavedPlaceVC.places.append(selectedPlace)
+                    // Add place directly once pinned on the map
+                    // self.mySavedPlaceVC.places.append(self.currentPlace)
+                    
+                    
                 }
             })
             
 
         }
     }
+    
+    // Implement "viewForAnnotation" delegate method to return an AnnotationView
+    // - Customize the elements of annotationView
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if (annotation is MKUserLocation) {
+            // If annotation is not an MKPointAnnotation (eg. MKUserLocation),
+            // return nil so map draws defualt view for it (eg. blue dot)
+            return nil
+        }
+        
+        let reuseId = "pin"
+        
+        // Dequeue an existing AnnotationView first
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            // If an existing AnnotationView was not available, cretea one
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            
+            // Customize the AnnotationView
+            pinView!.canShowCallout = true
+            pinView!.animatesDrop = true
+            pinView!.pinColor = MKPinAnnotationColor.Red
+            // pinView!.image = UIImage(named: "polygon")
+            // pinView!.backgroundColor = UIColor.redColor()
+            // pinView.calloutOffset = CGPointMake(0, 32)
+            
+            // Add buttons with customized images to the callout
+            var rightButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+            rightButton.setImage(UIImage(named: "square"), forState: UIControlState.Normal)
+            rightButton.sizeToFit()
+            pinView!.rightCalloutAccessoryView = rightButton
+            
+
+            var leftButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+            leftButton.setImage(UIImage(named: "Star"), forState: UIControlState.Normal)
+            leftButton.sizeToFit()
+            pinView!.leftCalloutAccessoryView = leftButton
+            
+            // Add a detail discloure button to the right callout
+            //var button = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
+            
+            // Add an image to the left callout
+            //var iconView = UIImageView(image: UIImage(named: "Star"))
+            //pinView!.leftCalloutAccessoryView = iconView
+            
+        } else {
+            // Re-using an existing AnnotationView by only updating its annotation reference
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    // Tells the delegate that the user tapped one of the annotation view’s accessory buttons
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        //to do
+        if control == view.rightCalloutAccessoryView {
+            //println("right button clicked")
+            performSegueWithIdentifier("rightCalloutClicked", sender: self)
+        } else if control == view.leftCalloutAccessoryView {
+            //println("left button clicked")
+            performSegueWithIdentifier("rightCalloutClicked", sender: self)
+        }
+    }
+    
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -162,6 +245,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if segue.identifier == "backToTableView" {
             let targetVC:TableViewController = segue.destinationViewController as TableViewController
             targetVC.places = self.mySavedPlaceVC.places
+        } else if segue.identifier == "rightCalloutClicked" {
+            // to do
+            let rightCalloutVC:rightCalloutViewController = segue.destinationViewController as rightCalloutViewController
+            rightCalloutVC.mapVC = self
+            rightCalloutVC.pinnedPlace = currentPlace
         }
 
     }

@@ -72,7 +72,6 @@ class TableViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView.reloadData()
-        println(places)
     }
 
     /*

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8WE-t9-HEq">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -42,21 +43,80 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="OYl-7r-hCI" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="32W-Vu-KWp"/>
-                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="7LA-jl-aGi"/>
-                            <constraint firstItem="OYl-7r-hCI" firstAttribute="top" secondItem="LXh-mO-Cd9" secondAttribute="bottom" id="MFr-S9-y0p"/>
-                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="leading" secondItem="OYl-7r-hCI" secondAttribute="leading" id="WdS-Kr-gd2"/>
-                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="YFg-s6-M9g"/>
-                            <constraint firstItem="OYl-7r-hCI" firstAttribute="trailing" secondItem="LXh-mO-Cd9" secondAttribute="trailing" id="YlT-bD-3gp"/>
-                            <constraint firstAttribute="trailing" secondItem="OYl-7r-hCI" secondAttribute="trailing" id="ZMV-mW-ysh"/>
+                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="FJi-5m-jxH"/>
+                            <constraint firstItem="LXh-mO-Cd9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="LPV-f8-37I"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="top" secondItem="LXh-mO-Cd9" secondAttribute="bottom" id="Onk-QS-Ch4"/>
+                            <constraint firstAttribute="trailing" secondItem="OYl-7r-hCI" secondAttribute="trailing" id="hdY-6t-aqV"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="trailing" secondItem="LXh-mO-Cd9" secondAttribute="trailing" id="lqz-EE-kxs"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="t5L-zY-QTF"/>
+                            <constraint firstItem="OYl-7r-hCI" firstAttribute="leading" secondItem="LXh-mO-Cd9" secondAttribute="leading" id="ttz-Sf-Khu"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="myMap" destination="OYl-7r-hCI" id="Nfg-Jk-4yF"/>
+                        <segue destination="PUs-vj-fCz" kind="show" identifier="rightCalloutClicked" id="QmZ-Lf-IVc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1493" y="307"/>
+        </scene>
+        <!--Right Callout View Controller-->
+        <scene sceneID="ftc-4d-umO">
+            <objects>
+                <viewController id="PUs-vj-fCz" customClass="rightCalloutViewController" customModule="Memorable_Places" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0SY-NZ-lXK"/>
+                        <viewControllerLayoutGuide type="bottom" id="xip-6h-8BS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hUL-UX-zCy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRI-eO-e8L">
+                                <rect key="frame" x="16" y="86" width="290" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="bjW-lh-NdU"/>
+                                    <constraint firstAttribute="width" constant="290" id="ekh-BI-pa1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bW6-Xa-7Gf">
+                                <rect key="frame" x="227" y="491" width="147" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Save this place">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveAddress:" destination="PUs-vj-fCz" eventType="touchUpInside" id="I9x-VB-z2D"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUu-Ng-i9L">
+                                <rect key="frame" x="16" y="40" width="64" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="bW6-Xa-7Gf" secondAttribute="centerX" id="5xg-zi-3WU"/>
+                            <constraint firstItem="LRI-eO-e8L" firstAttribute="leading" secondItem="hUL-UX-zCy" secondAttribute="leadingMargin" id="GmA-Nb-FL1"/>
+                            <constraint firstItem="DUu-Ng-i9L" firstAttribute="leading" secondItem="hUL-UX-zCy" secondAttribute="leadingMargin" id="aGD-gv-h7V"/>
+                            <constraint firstItem="xip-6h-8BS" firstAttribute="top" secondItem="bW6-Xa-7Gf" secondAttribute="bottom" constant="70" id="lHh-dO-n5Q"/>
+                            <constraint firstItem="DUu-Ng-i9L" firstAttribute="top" secondItem="0SY-NZ-lXK" secondAttribute="bottom" constant="20" id="syT-7b-zgQ"/>
+                            <constraint firstItem="LRI-eO-e8L" firstAttribute="top" secondItem="0SY-NZ-lXK" secondAttribute="bottom" constant="66" id="wFA-uy-bTJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addressLabel" destination="LRI-eO-e8L" id="Rjk-E6-c9u"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aXA-8W-aE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2190" y="243"/>
         </scene>
         <!--My Saved Places-->
         <scene sceneID="f4z-G6-LZi">
@@ -92,7 +152,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWl-SP-9ck" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1278" y="423"/>
+            <point key="canvasLocation" x="758" y="307"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FLd-xw-N8Y">
@@ -110,7 +170,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Sb-RA-lZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="565" y="1133"/>
+            <point key="canvasLocation" x="9" y="307"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
