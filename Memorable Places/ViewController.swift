@@ -18,9 +18,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     var addPlace:Bool = true
     
-    @IBOutlet weak var myMap: MKMapView!
-    
     var manager = CLLocationManager()
+    
+    @IBOutlet weak var myMap: MKMapView!
     
     @IBAction func findMe(sender: UIBarButtonItem) {
         manager.requestWhenInUseAuthorization()
@@ -87,18 +87,52 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         myMap.setCenterCoordinate(currentLocation.coordinate, animated: true)
         myMap.setRegion(region, animated: true)
-        
-        var annotation = MKPointAnnotation()
-        annotation.coordinate = currentLocation.coordinate
-        annotation.title = "Current Location"
-        annotation.subtitle = "\(currentLocation.coordinate.latitude)" + ", " + "\(currentLocation.coordinate.longitude)"
-        
-        myMap.addAnnotation(annotation)
-        myMap.selectAnnotation(annotation, animated: true)
-        
-        // Stop updating location
-        manager.stopUpdatingLocation()
-        
+   
+        var geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) in
+            if error != nil {
+                println(error)
+            } else {
+                // Create a constant from variable
+                let p = CLPlacemark(placemark: placemarks[0] as CLPlacemark)
+                // Get the address
+                var subThoroughfare = p.subThoroughfare ?? ""
+                var thoroughfare = p.thoroughfare ?? ""
+                var subLocality = p.subLocality ?? ""
+                var locality = p.locality ?? ""
+                var subAdministrativeArea = p.subAdministrativeArea ?? ""
+                var administrativeArea = p.administrativeArea ?? ""
+                var postalCode = p.postalCode ?? ""
+                var country = p.country ?? ""
+                
+                var address = "\(subThoroughfare) \(thoroughfare)\n\(subAdministrativeArea), \(administrativeArea) \(postalCode)\n\(country)"
+                
+                // Remove old annotations with title of "current location"
+                var annotationArray = self.myMap.annotations as [MKPointAnnotation]
+                for eachAnnotation in annotationArray {
+                    if eachAnnotation.title == "Current Location" {
+                        self.myMap.removeAnnotation(eachAnnotation)
+                    }
+                }
+                
+                // Add new annotation with title of "current location"
+                var currentAnnotation = MKPointAnnotation()
+                currentAnnotation.coordinate = currentLocation.coordinate
+                
+                currentAnnotation.title = "Current Location"
+                currentAnnotation.subtitle = address
+                
+                self.myMap.addAnnotation(currentAnnotation)
+                
+                self.currentPlace = Place()
+                self.currentPlace.name = address
+                self.currentPlace.latitude = "\(currentLocation.coordinate.latitude)"
+                self.currentPlace.longitude = "\(currentLocation.coordinate.longitude)"
+ 
+                // Stop updating location
+                self.manager.stopUpdatingLocation()
+            }
+        })
     }
 
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
@@ -161,8 +195,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                     
                     // Add place directly once pinned on the map
                     // self.mySavedPlaceVC.places.append(self.currentPlace)
-                    
-                    
                 }
             })
             
@@ -188,10 +220,18 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             // If an existing AnnotationView was not available, cretea one
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             
-            // Customize the AnnotationView
-            pinView!.canShowCallout = true
-            pinView!.animatesDrop = true
-            pinView!.pinColor = MKPinAnnotationColor.Red
+            // Customize the AnnotationView for each kind of annotation
+            if annotation.title == "Current Location" {
+                pinView!.canShowCallout = true
+                pinView!.animatesDrop = false
+                pinView!.pinColor = MKPinAnnotationColor.Green
+            } else {
+                pinView!.canShowCallout = true
+                pinView!.animatesDrop = true
+                pinView!.pinColor = MKPinAnnotationColor.Red
+            }
+            
+            // Other customization
             // pinView!.image = UIImage(named: "polygon")
             // pinView!.backgroundColor = UIColor.redColor()
             // pinView.calloutOffset = CGPointMake(0, 32)
