@@ -18,6 +18,9 @@ class rightCalloutViewController: UIViewController {
     
     @IBAction func saveAddress(sender: UIButton) {
         self.mapVC.mySavedPlaceVC.places.append(pinnedPlace)
+        // Dismiss current VC when there is navigation controller
+        self.navigationController?.popViewControllerAnimated(true)
+
     }
     
     
